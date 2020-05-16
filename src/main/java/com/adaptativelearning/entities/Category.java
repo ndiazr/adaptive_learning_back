@@ -14,10 +14,10 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
-@Table(name = "users")
+@Table(name = "categories")
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class User extends BaseEntity
+public class Category extends BaseEntity
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,33 +25,18 @@ public class User extends BaseEntity
     private Integer id;
 
     @Column(length = 200)
-    private String address;
+    private String description;
 
     @Column(nullable = false, length = 100)
-    private String email;
-
-    @Column(name = "id_number", nullable = false)
-    private Integer idNumber;
-
-    @Column(name = "last_names", nullable = false, length = 100)
-    private String lastNames;
-
-    @Column(nullable = false, length = 100)
-    private String names;
-
-    @Column(nullable = false, length = 61)
-    private String password;
-
-    @Column(name = "phone_number", length = 20)
-    private String phoneNumber;
+    private String name;
 
     @OneToOne
-    @JoinColumn(name = "id_role", insertable = false, updatable = false)
+    @JoinColumn(name = "id_area", insertable = false, updatable = false)
     @JsonBackReference
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Role role;
+    private Area area;
 
-    @Column(name = "id_role", nullable = false)
-    private Integer idRole;
+    @Column(name = "id_area", nullable = false)
+    private Integer idArea;
 }
