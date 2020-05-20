@@ -54,4 +54,14 @@ public class User extends BaseEntity
 
     @Column(name = "id_role", nullable = false)
     private Integer idRole;
+
+    @OneToOne
+    @JoinColumn(name = "id_school", insertable = false, updatable = false)
+    @JsonBackReference
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private School school;
+
+    @Column(name = "id_role")
+    private Integer idSchool;
 }
