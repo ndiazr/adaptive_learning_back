@@ -1,8 +1,7 @@
 package com.adaptativelearning.controller;
 
-import com.adaptativelearning.entities.Area;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.adaptativelearning.area.Area;
+import com.adaptativelearning.base.BaseController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

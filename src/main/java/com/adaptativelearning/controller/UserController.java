@@ -1,6 +1,7 @@
 package com.adaptativelearning.controller;
 
-import com.adaptativelearning.entities.User;
+import com.adaptativelearning.base.BaseController;
+import com.adaptativelearning.user.User;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

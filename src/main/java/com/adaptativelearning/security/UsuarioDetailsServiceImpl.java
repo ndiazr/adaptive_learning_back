@@ -2,7 +2,7 @@ package com.adaptativelearning.security;
 
 import static java.util.Collections.emptyList;
 
-import com.adaptativelearning.repository.UserRepository;
+import com.adaptativelearning.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +20,7 @@ public class UsuarioDetailsServiceImpl implements UserDetailsService
     public UserDetails loadUserByUsername(String username)
     throws UsernameNotFoundException
     {
-        com.adaptativelearning.entities.User user = userRepository.findByIdNumber(Integer
+        com.adaptativelearning.user.User user = userRepository.findByIdNumber(Integer
             .valueOf(username));
 
         if (user == null)

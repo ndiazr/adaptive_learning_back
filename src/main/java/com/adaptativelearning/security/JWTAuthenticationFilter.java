@@ -5,7 +5,7 @@ import static com.adaptativelearning.security.Constants.ISSUER_INFO;
 import static com.adaptativelearning.security.Constants.SUPER_SECRET_KEY;
 import static com.adaptativelearning.security.Constants.TOKEN_BEARER_PREFIX;
 
-import com.adaptativelearning.entities.User;
+import com.adaptativelearning.user.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

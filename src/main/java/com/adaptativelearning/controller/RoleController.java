@@ -1,6 +1,7 @@
 package com.adaptativelearning.controller;
 
-import com.adaptativelearning.entities.Role;
+import com.adaptativelearning.base.BaseController;
+import com.adaptativelearning.role.Role;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

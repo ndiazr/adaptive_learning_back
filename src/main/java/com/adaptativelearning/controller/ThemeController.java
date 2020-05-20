@@ -1,6 +1,7 @@
 package com.adaptativelearning.controller;
 
-import com.adaptativelearning.entities.Theme;
+import com.adaptativelearning.base.BaseController;
+import com.adaptativelearning.theme.Theme;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
