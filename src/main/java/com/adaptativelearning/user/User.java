@@ -65,6 +65,6 @@ public class User extends BaseEntity
     @EqualsAndHashCode.Exclude
     private School school;
 
-    @Column(name = "id_role")
+    @Column(name = "id_school")
     private Integer idSchool;
 }

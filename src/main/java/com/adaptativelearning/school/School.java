@@ -18,6 +18,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "schools")
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class School extends BaseEntity
 {
     @Id
