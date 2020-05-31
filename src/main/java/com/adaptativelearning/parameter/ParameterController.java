@@ -1,7 +1,6 @@
-package com.adaptativelearning.controller;
+package com.adaptativelearning.parameter;
 
 import com.adaptativelearning.base.BaseController;
-import com.adaptativelearning.parameter.Parameter;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

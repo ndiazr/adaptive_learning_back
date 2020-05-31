@@ -1,4 +1,4 @@
-package com.adaptativelearning.controller;
+package com.adaptativelearning.area;
 
 import com.adaptativelearning.area.Area;
 import com.adaptativelearning.base.BaseController;

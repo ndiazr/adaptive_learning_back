@@ -50,7 +50,7 @@ public class User extends BaseEntity
 
     @OneToOne
     @JoinColumn(name = "id_role", insertable = false, updatable = false)
-    @JsonBackReference
+    @JsonBackReference(value = "role")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Role role;
@@ -60,7 +60,7 @@ public class User extends BaseEntity
 
     @OneToOne
     @JoinColumn(name = "id_school", insertable = false, updatable = false)
-    @JsonBackReference
+    @JsonBackReference(value = "school")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private School school;
