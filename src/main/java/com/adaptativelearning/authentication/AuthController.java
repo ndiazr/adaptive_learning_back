@@ -108,6 +108,11 @@ public class AuthController
         {
             user.setPhoneNumber(signUpRequest.getPhoneNumber());
         }
+
+        if (signUpRequest.getIdSchool() != null)
+        {
+            user.setIdSchool(signUpRequest.getIdSchool());
+        }
         return user;
     }
 }

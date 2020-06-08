@@ -28,4 +28,6 @@ public class SignUpRequest
 
     @NotNull
     private Integer idRole;
+
+    private Integer idSchool;
 }
