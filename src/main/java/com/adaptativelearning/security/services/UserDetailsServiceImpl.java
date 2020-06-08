@@ -1,17 +1,14 @@
-package com.adaptativelearning.security;
-
-import static java.util.Collections.emptyList;
+package com.adaptativelearning.security.services;
 
 import com.adaptativelearning.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UsuarioDetailsServiceImpl implements UserDetailsService
+public class UserDetailsServiceImpl implements UserDetailsService
 {
     @Autowired
     private UserRepository userRepository;
@@ -25,8 +22,8 @@ public class UsuarioDetailsServiceImpl implements UserDetailsService
 
         if (user == null)
         {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException("User not found: " + username);
         }
-        return new User(user.getIdNumber().toString(), user.getPassword(), emptyList());
+        return UserDetailsImpl.build(user);
     }
 }

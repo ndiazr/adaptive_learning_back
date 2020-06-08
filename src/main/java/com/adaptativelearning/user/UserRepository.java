@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends BaseRepository<User, Integer>
 {
     User findByIdNumber(Integer idNumber);
+
+    Boolean existsByIdNumber(Integer idNumber);
 }
