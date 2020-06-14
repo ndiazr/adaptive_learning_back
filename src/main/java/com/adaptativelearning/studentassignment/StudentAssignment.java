@@ -26,7 +26,6 @@ import lombok.ToString;
     "id_student", "id_grade", "id_area"}))
 @Data
 @EqualsAndHashCode(callSuper = false)
-//@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class StudentAssignment extends BaseEntity
 {
     @Id
