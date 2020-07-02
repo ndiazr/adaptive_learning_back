@@ -1,6 +1,7 @@
 package com.adaptativelearning.role;
 
 import com.adaptativelearning.base.BaseEntity;
+import com.adaptativelearning.base.entityinfo.annotations.LineText;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,11 +20,14 @@ public class Role extends BaseEntity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
+    @LineText(hidden = true, editable = false)
     private Integer id;
 
     @Column(length = 200)
+    @LineText
     private String description;
 
     @Column(nullable = false, length = 100)
+    @LineText
     private String name;
 }

@@ -1,6 +1,8 @@
 package com.adaptativelearning.user;
 
 import com.adaptativelearning.base.BaseEntity;
+import com.adaptativelearning.base.entityinfo.annotations.DropDown;
+import com.adaptativelearning.base.entityinfo.annotations.LineText;
 import com.adaptativelearning.role.Role;
 import com.adaptativelearning.school.School;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -25,27 +27,35 @@ public class User extends BaseEntity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
+    @LineText(hidden = true, editable = false)
     private Integer id;
 
     @Column(length = 200)
+    @LineText
     private String address;
 
     @Column(nullable = false, length = 100)
+    @LineText
     private String email;
 
     @Column(name = "id_number", nullable = false)
+    @LineText
     private Integer idNumber;
 
     @Column(name = "last_names", nullable = false, length = 100)
+    @LineText
     private String lastNames;
 
     @Column(nullable = false, length = 100)
+    @LineText
     private String names;
 
     @Column(nullable = false, length = 61)
+    @LineText
     private String password;
 
     @Column(name = "phone_number", length = 20)
+    @LineText
     private String phoneNumber;
 
     @OneToOne
@@ -53,9 +63,11 @@ public class User extends BaseEntity
     @JsonBackReference(value = "role")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @LineText
     private Role role;
 
     @Column(name = "id_role", nullable = false)
+    @DropDown(query = "SELECT ID AS VALUE, NAME AS LABEL FROM ROLES")
     private Integer idRole;
 
     @OneToOne
@@ -63,8 +75,10 @@ public class User extends BaseEntity
     @JsonBackReference(value = "school")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @LineText
     private School school;
 
     @Column(name = "id_school")
+    @DropDown(query = "SELECT ID AS VALUE, NAME AS LABEL FROM SCHOOLS")
     private Integer idSchool;
 }

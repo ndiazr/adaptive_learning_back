@@ -2,6 +2,8 @@ package com.adaptativelearning.base;
 
 import static java.lang.String.format;
 
+import com.adaptativelearning.base.entityinfo.EntityInfo;
+import com.adaptativelearning.base.entityinfo.EntityInfoService;
 import com.adaptativelearning.base.validators.NullValidatorBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.ApiOperation;
@@ -29,6 +31,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class BaseController<T extends BaseEntity, I extends Serializable, R, A>
 {
     private static final String NOT_FOUND_ERROR_FORMAT = "The resource %s was not found";
+
+    @Autowired
+    private EntityInfoService entityInfoService;
 
     @Autowired
     @Setter
@@ -166,6 +171,19 @@ public class BaseController<T extends BaseEntity, I extends Serializable, R, A>
     {
         T foundObject = validateObject(id);
         baseCrudService.delete(foundObject);
+    }
+
+    /**
+     * Retrieve all resources for base entity.
+     *
+     * @return The list of resources.
+     */
+    @ApiOperation(value = "Information of the resource")
+    @GetMapping("/info")
+    public ResponseEntity<EntityInfo> getEntityInfo()
+    {
+        entityInfoService.setBaseEntityClass(baseEntityClass);
+        return ResponseEntity.ok(entityInfoService.geEntityInfo());
     }
 
     /**

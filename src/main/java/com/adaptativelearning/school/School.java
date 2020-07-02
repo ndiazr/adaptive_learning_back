@@ -1,6 +1,8 @@
 package com.adaptativelearning.school;
 
 import com.adaptativelearning.base.BaseEntity;
+import com.adaptativelearning.base.entityinfo.annotations.DropDown;
+import com.adaptativelearning.base.entityinfo.annotations.LineText;
 import com.adaptativelearning.city.City;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.Column;
@@ -24,15 +26,19 @@ public class School extends BaseEntity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
+    @LineText(hidden = true, editable = false)
     private Integer id;
 
     @Column(length = 200)
+    @LineText
     private String address;
 
     @Column(nullable = false, length = 200)
+    @LineText
     private String name;
 
     @Column(name = "phone_number", length = 100)
+    @LineText
     private String phoneNumber;
 
     @OneToOne
@@ -40,8 +46,10 @@ public class School extends BaseEntity
     @JsonBackReference
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @LineText
     private City city;
 
     @Column(name = "id_city", nullable = false)
+    @DropDown(query = "SELECT ID AS VALUE, NAME AS LABEL FROM CITIES")
     private Integer idCity;
 }

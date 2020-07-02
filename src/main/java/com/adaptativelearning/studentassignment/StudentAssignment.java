@@ -2,6 +2,8 @@ package com.adaptativelearning.studentassignment;
 
 import com.adaptativelearning.area.Area;
 import com.adaptativelearning.base.BaseEntity;
+import com.adaptativelearning.base.entityinfo.annotations.DropDown;
+import com.adaptativelearning.base.entityinfo.annotations.LineText;
 import com.adaptativelearning.grade.Grade;
 import com.adaptativelearning.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -31,6 +33,7 @@ public class StudentAssignment extends BaseEntity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
+    @LineText(hidden = true, editable = false)
     private Integer id;
 
     @OneToOne
@@ -55,17 +58,21 @@ public class StudentAssignment extends BaseEntity
     @JoinColumn(name = "id_grade", insertable = false, updatable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @LineText
     private Grade grade;
 
     @Column(name = "id_grade", nullable = false)
+    @DropDown(query = "SELECT ID AS VALUE, NAME AS LABEL FROM GRADE")
     private Integer idGrade;
 
     @OneToOne
     @JoinColumn(name = "id_area", insertable = false, updatable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @LineText
     private Area area;
 
     @Column(name = "id_area", nullable = false)
+    @DropDown(query = "SELECT ID AS VALUE, NAME AS LABEL FROM AREAS")
     private Integer idArea;
 }
