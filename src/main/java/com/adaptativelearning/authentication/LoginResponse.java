@@ -11,14 +11,16 @@ public class LoginResponse
     private Integer id;
     private String username;
     private String email;
+    private String name;
     private List<String> roles;
 
-    public LoginResponse(String accessToken, Integer id, String username, String email, List<String> roles)
+    public LoginResponse(String accessToken, Integer id, String username, String email, String name, List<String> roles)
     {
         this.token = accessToken;
         this.id = id;
         this.username = username;
         this.email = email;
         this.roles = roles;
+        this.name = name;
     }
 }

@@ -82,10 +82,13 @@ public class AuthController
             userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(
                 Collectors.toList());
 
+        User user = userRepository.findByIdNumber(Integer.valueOf(username));
+
         return new LoginResponse(jwt,
             userDetails.getId(),
             userDetails.getUsername(),
             userDetails.getEmail(),
+            user.getNames() + " " + user.getLastNames(),
             roles);
     }
 
