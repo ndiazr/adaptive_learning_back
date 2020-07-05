@@ -14,12 +14,16 @@ public interface UserRepository extends BaseRepository<User, Integer>
     Boolean existsByIdNumber(Integer idNumber);
 
     @Query(
-        value = "SELECT * FROM users u, roles r"
-            + " WHERE (u.id_number like CONCAT('%', :search ,'%')"
-            + " OR u.names like CONCAT('%', :search ,'%')"
-            + " OR u.last_names like CONCAT('%', :search ,'%'))"
-            + " AND u.id_role = r.id"
-            + " AND r.name like '%estudiante%'",
+        value = "SELECT * FROM"
+            + " ("
+            + " SELECT u.*, CONCAT(u.names, ' ', u.last_names) as fullName"
+            + " FROM users u, roles r"
+            + " WHERE u.id_role = r.id"
+            + " AND r.name like '%estudiante%'"
+            + " ) d"
+            + " WHERE"
+            + " d.id_number like CONCAT('%', :search ,'%')"
+            + " OR d.fullName like CONCAT('%', :search ,'%')",
         nativeQuery = true)
     List<User> searchStudentUser(@Param("search") String search);
 }
