@@ -132,9 +132,9 @@ public class BaseController<T extends BaseEntity, I extends Serializable, R, A>
     public ResponseEntity<A> createResource(@Valid @RequestBody R requestEntity)
     {
         T baseEntityCreated = baseCrudService.save(modelMapper.map(requestEntity, baseEntityClass));
+        A baseEntityResponse = (A) baseCrudService.findById((I) baseEntityCreated.getId());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(modelMapper
-            .map(baseEntityCreated, responseClass));
+        return ResponseEntity.status(HttpStatus.CREATED).body(baseEntityResponse);
     }
 
     /**
@@ -155,8 +155,9 @@ public class BaseController<T extends BaseEntity, I extends Serializable, R, A>
 
         NullValidatorBuilder.builder().httpStatus(HttpStatus.NOT_FOUND).message(format(NOT_FOUND_ERROR_FORMAT,
             id)).validate(baseEntityUpdated);
+        A baseEntityResponse = (A) baseCrudService.findById((I) baseEntityUpdated.getId());
 
-        return ResponseEntity.ok(modelMapper.map(baseEntityUpdated, responseClass));
+        return ResponseEntity.ok(baseEntityResponse);
     }
 
     /**
