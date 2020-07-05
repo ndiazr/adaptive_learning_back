@@ -1,9 +1,11 @@
 package com.adaptativelearning.security;
 
 import static com.adaptativelearning.security.Constants.PUBLIC_MATCHERS;
+import static com.google.common.collect.ImmutableList.of;
 
 import com.adaptativelearning.security.jwt.AuthEntryPointJwt;
 import com.adaptativelearning.security.jwt.AuthTokenFilter;
+import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +28,10 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurity extends WebSecurityConfigurerAdapter
 {
+    private static final String PATH = "/**";
+    private static final ImmutableList<String> ALLOWED_METHODS =
+        of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS");
+
     @Autowired
     private UserDetailsService userDetailsService;
 
@@ -76,8 +82,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter
     @Bean
     CorsConfigurationSource corsConfigurationSource()
     {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("*");
+        configuration.setAllowedMethods(ALLOWED_METHODS);
+        configuration.setAllowCredentials(true);
+        configuration.addAllowedHeader("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration(PATH, configuration);
         return source;
     }
 }
