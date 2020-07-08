@@ -45,7 +45,7 @@ public class Theme extends BaseEntity
     @LineText
     private Dba dba;
 
-    @Column(name = "id_da", nullable = false)
+    @Column(name = "id_dba", nullable = false)
     @DropDown(query = "SELECT ID AS value, NAME AS label FROM dbas")
     private Integer idDba;
 }

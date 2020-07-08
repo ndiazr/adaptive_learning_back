@@ -51,7 +51,7 @@ public class User extends BaseEntity
     private String names;
 
     @Column(nullable = false, length = 61)
-    @LineText
+    @LineText(hidden = true, editable = false)
     private String password;
 
     @Column(name = "phone_number", length = 20)
