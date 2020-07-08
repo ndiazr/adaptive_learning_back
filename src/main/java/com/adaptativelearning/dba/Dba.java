@@ -46,6 +46,6 @@ public class Dba extends BaseEntity
     private Category category;
 
     @Column(name = "id_category", nullable = false)
-    @DropDown(query = "SELECT ID AS VALUE, NAME AS LABEL FROM CATEGORIES")
+    @DropDown(query = "SELECT ID AS value, NAME AS label FROM categories")
     private Integer idCategory;
 }

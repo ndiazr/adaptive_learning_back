@@ -46,6 +46,6 @@ public class Area extends BaseEntity
     private Grade grade;
 
     @Column(name = "id_grade", nullable = false)
-    @DropDown(query = "SELECT ID AS VALUE, NAME AS LABEL FROM GRADE")
+    @DropDown(query = "SELECT ID AS value, NAME AS label FROM grade")
     private Integer idGrade;
 }

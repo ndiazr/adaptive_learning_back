@@ -50,6 +50,6 @@ public class School extends BaseEntity
     private City city;
 
     @Column(name = "id_city", nullable = false)
-    @DropDown(query = "SELECT ID AS VALUE, NAME AS LABEL FROM CITIES")
+    @DropDown(query = "SELECT ID AS value, NAME AS label FROM cities")
     private Integer idCity;
 }

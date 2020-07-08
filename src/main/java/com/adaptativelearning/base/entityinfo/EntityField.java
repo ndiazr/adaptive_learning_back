@@ -1,5 +1,6 @@
 package com.adaptativelearning.base.entityinfo;
 
+import java.util.List;
 import java.util.Map;
 import lombok.Data;
 
@@ -22,5 +23,5 @@ public class EntityField
     private Integer scalar;
     private Boolean decimal;
     private boolean dateField;
-    private Map<Object, Object> options;
+    private List<Map<String, Object>> options;
 }

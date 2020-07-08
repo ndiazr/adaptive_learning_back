@@ -67,7 +67,7 @@ public class User extends BaseEntity
     private Role role;
 
     @Column(name = "id_role", nullable = false)
-    @DropDown(query = "SELECT ID AS VALUE, NAME AS LABEL FROM ROLES")
+    @DropDown(query = "SELECT ID AS value, NAME AS label FROM roles")
     private Integer idRole;
 
     @OneToOne
@@ -79,6 +79,6 @@ public class User extends BaseEntity
     private School school;
 
     @Column(name = "id_school")
-    @DropDown(query = "SELECT ID AS VALUE, NAME AS LABEL FROM SCHOOLS")
+    @DropDown(query = "SELECT ID AS value, NAME AS label FROM schools")
     private Integer idSchool;
 }

@@ -6,7 +6,6 @@ import com.adaptativelearning.base.entityinfo.annotations.DropDown;
 import com.adaptativelearning.base.entityinfo.annotations.LineText;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.persistence.Column;
@@ -146,14 +145,9 @@ public class EntityInfoService
         return -1;
     }
 
-    private Map<Object, Object> getOptions(String sql)
+    private List<Map<String, Object>> getOptions(String sql)
     {
         List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql);
-        HashMap<Object, Object> options = new HashMap<>();
-        mapList.forEach(c -> {
-            List<Object> list = new ArrayList<>(c.values());
-            options.put(list.get(0), list.get(1));
-        });
-        return options;
+        return mapList;
     }
 }

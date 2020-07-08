@@ -42,6 +42,6 @@ public class City extends BaseEntity
     private Department department;
 
     @Column(name = "id_department", nullable = false)
-    @DropDown(query = "SELECT ID AS VALUE, NAME AS LABEL FROM DEPARTMENTS")
+    @DropDown(query = "SELECT ID AS value, NAME AS label FROM departments")
     private Integer idDepartment;
 }
