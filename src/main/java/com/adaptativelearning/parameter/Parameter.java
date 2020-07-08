@@ -27,9 +27,9 @@ public class Parameter extends BaseEntity
     @LineText
     private String description;
 
-    @Column(nullable = false, length = 100)
+    @Column(name = "parameter_key", nullable = false, length = 100)
     @LineText
-    private String key;
+    private String parameterKey;
 
     @Column(nullable = false, length = 100)
     @LineText
