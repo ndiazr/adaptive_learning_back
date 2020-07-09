@@ -46,6 +46,9 @@ public class Category extends BaseEntity
     private Area area;
 
     @Column(name = "id_area", nullable = false)
-    @DropDown(query = "SELECT ID AS value, NAME AS label FROM areas")
+    @DropDown(query = "SELECT areas.id AS value,"
+        + " CONCAT(areas.name, ' - ', grade.name ) AS label"
+        + ""
+        + " FROM areas, grade WHERE areas.id_grade = grade.id")
     private Integer idArea;
 }
