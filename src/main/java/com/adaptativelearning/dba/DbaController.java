@@ -26,7 +26,7 @@ public class DbaController extends BaseController<Dba, Integer, Dba, Dba>
     @ApiOperation(value = "Find a resource by category")
     @ApiResponse(code = 404, message = "The resource was not found")
     @GetMapping("/findByCategory/{category}")
-    public ResponseEntity<List<Dba>> findResourceByTeacher(@PathVariable(name = "category") Integer idCategory)
+    public ResponseEntity<List<Dba>> findResourceByCategory(@PathVariable(name = "category") Integer idCategory)
     {
         return ResponseEntity.ok(dbaService.findByCategory(idCategory));
     }

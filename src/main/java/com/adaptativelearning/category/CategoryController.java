@@ -26,7 +26,7 @@ public class CategoryController extends BaseController<Category, Integer, Catego
     @ApiOperation(value = "Find a resource by area")
     @ApiResponse(code = 404, message = "The resource was not found")
     @GetMapping("/findByArea/{area}")
-    public ResponseEntity<List<Category>> findResourceByTeacher(@PathVariable(name = "area") Integer idArea)
+    public ResponseEntity<List<Category>> findResourceByArea(@PathVariable(name = "area") Integer idArea)
     {
         return ResponseEntity.ok(categoryService.findByArea(idArea));
     }

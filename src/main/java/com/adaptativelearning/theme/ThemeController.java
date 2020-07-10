@@ -26,7 +26,7 @@ public class ThemeController extends BaseController<Theme, Integer, Theme, Theme
     @ApiOperation(value = "Find a resource by dba")
     @ApiResponse(code = 404, message = "The resource was not found")
     @GetMapping("/findByDba/{dba}")
-    public ResponseEntity<List<Theme>> findResourceByTeacher(@PathVariable(name = "dba") Integer idDba)
+    public ResponseEntity<List<Theme>> findResourceByDba(@PathVariable(name = "dba") Integer idDba)
     {
         return ResponseEntity.ok(themeService.findByDba(idDba));
     }

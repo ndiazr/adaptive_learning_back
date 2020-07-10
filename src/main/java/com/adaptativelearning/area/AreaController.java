@@ -26,7 +26,7 @@ public class AreaController extends BaseController<Area, Integer, Area, Area>
     @ApiOperation(value = "Find a resource by grade")
     @ApiResponse(code = 404, message = "The resource was not found")
     @GetMapping("/findByGrade/{grade}")
-    public ResponseEntity<List<Area>> findResourceByTeacher(@PathVariable(name = "grade") Integer idGrade)
+    public ResponseEntity<List<Area>> findResourceByGrade(@PathVariable(name = "grade") Integer idGrade)
     {
         return ResponseEntity.ok(areaService.findByGrade(idGrade));
     }
