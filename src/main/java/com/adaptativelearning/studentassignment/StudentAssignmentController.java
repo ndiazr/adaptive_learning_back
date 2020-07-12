@@ -4,6 +4,7 @@ import com.adaptativelearning.base.BaseController;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,12 +36,15 @@ public class StudentAssignmentController
 
     @ApiOperation(value = "Find a resource by filters")
     @ApiResponse(code = 404, message = "The resource was not found")
-    @GetMapping("/findByFilters")
-    public ResponseEntity<List<StudentAssignment>> findResourceByFilters(@RequestParam(required = false, name = "teacher") Integer idTeacher,
-        @RequestParam(required = false, name = "student") Integer idStudent,
-        @RequestParam(required = false, name = "grade") Integer idGrade,
-        @RequestParam(required = false, name = "area") Integer idArea)
+    @GetMapping("/findForAssign")
+    public ResponseEntity<List<StudentAssignment>> findForAssign(@RequestParam(name = "teacher") Integer idTeacher,
+        @RequestParam(name = "grade") Integer idGrade,
+        @RequestParam(name = "area") Integer idArea)
     {
-        return ResponseEntity.ok(studentAssignmentService.getAll());
+        List<StudentAssignment> allStudentAssignments = studentAssignmentService.getAll();
+
+        return ResponseEntity.ok(allStudentAssignments.stream()
+            .filter(elem -> elem.getIdTeacher().equals(idTeacher) && elem.getIdGrade()
+                .equals(idGrade) && elem.getIdArea().equals(idArea)).collect(Collectors.toList()));
     }
 }
