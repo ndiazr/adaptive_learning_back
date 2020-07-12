@@ -29,13 +29,13 @@ public class Area extends BaseEntity
     @LineText(hidden = true, editable = false)
     private Integer id;
 
-    @Column(length = 200)
-    @LineText
-    private String description;
-
     @Column(nullable = false, length = 100)
     @LineText
     private String name;
+
+    @Column(length = 200)
+    @LineText
+    private String description;
 
     @OneToOne
     @JoinColumn(name = "id_grade", insertable = false, updatable = false)

@@ -29,10 +29,6 @@ public class School extends BaseEntity
     @LineText(hidden = true, editable = false)
     private Integer id;
 
-    @Column(length = 200)
-    @LineText
-    private String address;
-
     @Column(nullable = false, length = 200)
     @LineText
     private String name;
@@ -40,6 +36,10 @@ public class School extends BaseEntity
     @Column(name = "phone_number", length = 100)
     @LineText
     private String phoneNumber;
+
+    @Column(length = 200)
+    @LineText
+    private String address;
 
     @OneToOne
     @JoinColumn(name = "id_city", insertable = false, updatable = false)

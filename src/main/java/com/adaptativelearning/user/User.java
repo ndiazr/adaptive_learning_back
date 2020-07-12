@@ -30,6 +30,22 @@ public class User extends BaseEntity
     @LineText(hidden = true, editable = false)
     private Integer id;
 
+    @Column(name = "id_number", nullable = false)
+    @LineText
+    private Integer idNumber;
+
+    @Column(nullable = false, length = 100)
+    @LineText
+    private String names;
+
+    @Column(name = "last_names", nullable = false, length = 100)
+    @LineText
+    private String lastNames;
+
+    @Column(name = "phone_number", length = 20)
+    @LineText
+    private String phoneNumber;
+
     @Column(length = 200)
     @LineText
     private String address;
@@ -38,25 +54,9 @@ public class User extends BaseEntity
     @LineText
     private String email;
 
-    @Column(name = "id_number", nullable = false)
-    @LineText
-    private Integer idNumber;
-
-    @Column(name = "last_names", nullable = false, length = 100)
-    @LineText
-    private String lastNames;
-
-    @Column(nullable = false, length = 100)
-    @LineText
-    private String names;
-
     @Column(nullable = false, length = 61)
     @LineText(hidden = true, editable = false)
     private String password;
-
-    @Column(name = "phone_number", length = 20)
-    @LineText
-    private String phoneNumber;
 
     @OneToOne
     @JoinColumn(name = "id_role", insertable = false, updatable = false)

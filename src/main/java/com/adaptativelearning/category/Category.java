@@ -29,13 +29,13 @@ public class Category extends BaseEntity
     @LineText(hidden = true, editable = false)
     private Integer id;
 
-    @Column(length = 200)
-    @LineText
-    private String description;
-
     @Column(nullable = false, length = 100)
     @LineText
     private String name;
+
+    @Column(length = 200)
+    @LineText
+    private String description;
 
     @OneToOne
     @JoinColumn(name = "id_area", insertable = false, updatable = false)
@@ -47,8 +47,7 @@ public class Category extends BaseEntity
 
     @Column(name = "id_area", nullable = false)
     @DropDown(query = "SELECT areas.id AS value,"
-        + " CONCAT(areas.name, ' - ', grade.name ) AS label"
-        + ""
+        + " CONCAT(areas.name, ' - ', grade.name ) AS label" + ""
         + " FROM areas, grade WHERE areas.id_grade = grade.id")
     private Integer idArea;
 }
