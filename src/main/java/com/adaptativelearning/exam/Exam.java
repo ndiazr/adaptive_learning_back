@@ -36,7 +36,6 @@ public class Exam extends BaseEntity
 
     @OneToOne
     @JoinColumn(name = "id_teacher", insertable = false, updatable = false)
-    @JsonBackReference(value = "teacher")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @LineText
@@ -55,7 +54,6 @@ public class Exam extends BaseEntity
 
     @OneToOne
     @JoinColumn(name = "id_grade", insertable = false, updatable = false)
-    @JsonBackReference(value = "grade")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @LineText
@@ -67,7 +65,6 @@ public class Exam extends BaseEntity
 
     @OneToOne
     @JoinColumn(name = "id_area", insertable = false, updatable = false)
-    @JsonBackReference(value = "area")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @LineText
@@ -79,7 +76,6 @@ public class Exam extends BaseEntity
 
     @OneToOne
     @JoinColumn(name = "id_category", insertable = false, updatable = false)
-    @JsonBackReference(value = "category")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @LineText
@@ -91,7 +87,6 @@ public class Exam extends BaseEntity
 
     @OneToOne
     @JoinColumn(name = "id_dba", insertable = false, updatable = false)
-    @JsonBackReference(value = "dba")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @LineText
@@ -103,7 +98,6 @@ public class Exam extends BaseEntity
 
     @OneToOne
     @JoinColumn(name = "id_theme", insertable = false, updatable = false)
-    @JsonBackReference(value = "theme")
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @LineText
