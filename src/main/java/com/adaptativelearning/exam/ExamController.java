@@ -1,6 +1,5 @@
 package com.adaptativelearning.exam;
 
-import com.adaptativelearning.area.Area;
 import com.adaptativelearning.base.BaseController;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
