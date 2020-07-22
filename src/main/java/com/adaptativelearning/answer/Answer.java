@@ -3,12 +3,15 @@ package com.adaptativelearning.answer;
 import com.adaptativelearning.base.BaseEntity;
 import com.adaptativelearning.mediacontent.MediaContent;
 import com.adaptativelearning.question.Question;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.Data;
@@ -32,8 +35,9 @@ public class Answer extends BaseEntity
     @Column(name = "is_correct", nullable = false)
     private Short isCorrect;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_question", insertable = false, updatable = false)
+    @JsonBackReference
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Question question;
