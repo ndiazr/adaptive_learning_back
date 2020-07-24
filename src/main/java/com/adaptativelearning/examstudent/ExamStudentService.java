@@ -38,6 +38,11 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
     @Autowired
     private ExamStudentRepository examStudentRepository;
 
+    public List<ExamStudent> findByStudent(Integer idStudent)
+    {
+        return examStudentRepository.findByIdStudent(idStudent);
+    }
+
     public void assignStudentsExam(ExamStudentAssignDTO examStudentAssignDTO)
     throws Exception
     {

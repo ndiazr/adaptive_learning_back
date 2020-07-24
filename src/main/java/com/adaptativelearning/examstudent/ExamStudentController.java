@@ -1,6 +1,10 @@
 package com.adaptativelearning.examstudent;
 
 import com.adaptativelearning.base.BaseController;
+import com.adaptativelearning.studentassignment.StudentAssignment;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +30,12 @@ public class ExamStudentController
         super(ExamStudent.class, ExamStudent.class, ExamStudent.class);
     }
 
+    @GetMapping("/findByStudent/{student}")
+    public ResponseEntity<List<ExamStudent>> findResourceByStudent(@PathVariable(name = "student") Integer idStudent)
+    {
+        return ResponseEntity.ok(examStudentService.findByStudent(idStudent));
+    }
+
     @PostMapping("/assign")
     public ResponseEntity assignStudentsExam(@Valid @RequestBody ExamStudentAssignDTO examStudentAssignDTO)
     {
@@ -49,8 +59,7 @@ public class ExamStudentController
         }
         catch (Exception e)
         {
-            throw new ResponseStatusException(
-                HttpStatus.INTERNAL_SERVER_ERROR,
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                 e.getStackTrace().toString());
         }
     }
