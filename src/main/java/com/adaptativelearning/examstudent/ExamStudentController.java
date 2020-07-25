@@ -60,6 +60,20 @@ public class ExamStudentController
         catch (Exception e)
         {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                e.getMessage());
+        }
+    }
+
+    @PostMapping("/qualify-exam")
+    public ResponseEntity qualifyExam(@Valid @RequestBody ExamStudentQualifyDTO examStudentQualifyDTO)
+    {
+        try
+        {
+            return ResponseEntity.ok(examStudentService.qualifyExam(examStudentQualifyDTO));
+        }
+        catch (Exception e)
+        {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                 e.getStackTrace().toString());
         }
     }

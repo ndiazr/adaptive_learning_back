@@ -1,5 +1,7 @@
 package com.adaptativelearning.examstudent;
 
+import com.adaptativelearning.answer.Answer;
+import com.adaptativelearning.answer.AnswerService;
 import com.adaptativelearning.base.BaseService;
 import com.adaptativelearning.exam.Exam;
 import com.adaptativelearning.exam.ExamService;
@@ -34,6 +36,9 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
 
     @Autowired
     private QuestionService questionService;
+
+    @Autowired
+    private AnswerService answerService;
 
     @Autowired
     private ExamStudentRepository examStudentRepository;
@@ -128,7 +133,7 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
         return questions.stream().map(String::valueOf).collect(Collectors.joining(","));
     }
 
-    public Object takeStudentExam(Integer examStudentId)
+    public ExamStudentTakeDTO takeStudentExam(Integer examStudentId)
     {
         ExamStudent examStudent = findById(examStudentId);
         examStudent.setState(IN_PROGRESS_STATE);
@@ -138,6 +143,7 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
         examStudentTakeDTO.setId(examStudent.getId());
         examStudentTakeDTO.setIdExam(examStudent.getIdExam());
         examStudentTakeDTO.setIdStudent(examStudent.getIdStudent());
+        examStudentTakeDTO.setArea(examStudent.getExam().getArea());
         examStudentTakeDTO.setState(examStudent.getState());
         examStudentTakeDTO.setTryNumber(examStudent.getTryNumber());
 
@@ -154,5 +160,48 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
         examStudentTakeDTO.setQuestions(questions);
 
         return examStudentTakeDTO;
+    }
+
+    public Object qualifyExam(ExamStudentQualifyDTO examStudentQualifyDTO)
+    {
+        ExamStudent examStudent = findById(examStudentQualifyDTO.getId());
+
+        int totalPoints = 0;
+
+        for (Integer idAnswer : examStudentQualifyDTO.getAnswers())
+        {
+            Answer answer = answerService.findById(idAnswer);
+
+            if (answer.getIsCorrect() != 0)
+            {
+                totalPoints += getPointsForAnswer(answer);
+            }
+        }
+
+        List<Integer> questionsIds = Arrays.stream(examStudent.getQuestions().split("\\s*,\\s*"))
+            .map(Integer::parseInt).collect(Collectors.toList());
+
+        int totalQuestions = questionsIds.size();
+        int questionsPerDifficulty = totalQuestions / 3;
+        int possibleTotalPoints =
+            (questionsPerDifficulty * 3) + (questionsPerDifficulty * 2) + questionsPerDifficulty;
+
+        return null;
+    }
+
+    private int getPointsForAnswer(Answer answer)
+    {
+        if (answer.getQuestion().getIdDifficulty().equals(LOW_DIFFICULTY))
+        {
+            return 1;
+        }
+        else if (answer.getQuestion().getIdDifficulty().equals(MEDIUM_DIFFICULTY))
+        {
+            return 2;
+        }
+        else
+        {
+            return 3;
+        }
     }
 }
