@@ -260,8 +260,13 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
         examStudentReinforcementsDTO.setIdStudent(examStudent.getIdStudent());
         examStudentReinforcementsDTO.setArea(examStudent.getExam().getArea());
 
-        List<Integer> reinforcementsIds = Arrays.stream(examStudent.getReinforcements()
-            .split("\\s*,\\s*")).map(Integer::parseInt).collect(Collectors.toList());
+        List<Integer> reinforcementsIds = new ArrayList<>();
+
+        if (!examStudent.getReinforcements().isEmpty() && examStudent.getReinforcements() != null)
+        {
+            reinforcementsIds = Arrays.stream(examStudent.getReinforcements().split("\\s*,\\s*"))
+                .map(Integer::parseInt).collect(Collectors.toList());
+        }
 
         List<Reinforcement> reinforcements = new ArrayList<>();
 
