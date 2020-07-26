@@ -77,4 +77,18 @@ public class ExamStudentController
                 e.getStackTrace().toString());
         }
     }
+
+    @GetMapping("/reinforcements/{examStudent}")
+    public ResponseEntity reinforcementsStudentExam(@PathVariable(name = "examStudent") Integer examStudent)
+    {
+        try
+        {
+            return ResponseEntity.ok(examStudentService.reinforcementsStudentExam(examStudent));
+        }
+        catch (Exception e)
+        {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
+                e.getMessage());
+        }
+    }
 }

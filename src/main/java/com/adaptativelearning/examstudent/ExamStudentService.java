@@ -9,9 +9,12 @@ import com.adaptativelearning.parameter.Parameter;
 import com.adaptativelearning.parameter.ParameterService;
 import com.adaptativelearning.question.Question;
 import com.adaptativelearning.question.QuestionService;
+import com.adaptativelearning.reinforcement.Reinforcement;
+import com.adaptativelearning.reinforcement.ReinforcementService;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,7 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
 {
     private static final String ASSIGNED_STATE = "assigned";
     private static final String IN_PROGRESS_STATE = "in_progress";
+    private static final String FINISHED_STATE = "finished";
     private static final Integer LOW_DIFFICULTY = 1;
     private static final Integer MEDIUM_DIFFICULTY = 2;
     private static final Integer HARD_DIFFICULTY = 3;
@@ -39,6 +43,9 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
 
     @Autowired
     private AnswerService answerService;
+
+    @Autowired
+    private ReinforcementService reinforcementService;
 
     @Autowired
     private ExamStudentRepository examStudentRepository;
@@ -162,9 +169,13 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
         return examStudentTakeDTO;
     }
 
-    public Object qualifyExam(ExamStudentQualifyDTO examStudentQualifyDTO)
+    public ExamStudent qualifyExam(ExamStudentQualifyDTO examStudentQualifyDTO)
     {
         ExamStudent examStudent = findById(examStudentQualifyDTO.getId());
+        examStudent.setAnswers(examStudentQualifyDTO.getAnswers().stream().map(String::valueOf)
+            .collect(Collectors.joining(",")));
+        examStudent.setState(FINISHED_STATE);
+        examStudent.setRealizationDate(new Date());
 
         int totalPoints = 0;
 
@@ -186,7 +197,40 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
         int possibleTotalPoints =
             (questionsPerDifficulty * 3) + (questionsPerDifficulty * 2) + questionsPerDifficulty;
 
-        return null;
+        int result = (totalPoints * 100) / possibleTotalPoints;
+
+        examStudent.setResult(result);
+        examStudent.setReinforcements(getReinforcements(result,
+            examStudent.getExam().getIdTheme()));
+
+        return save(examStudent);
+    }
+
+    private String getReinforcements(int result, int idTheme)
+    {
+        List<Reinforcement> reinforcements = reinforcementService.findByIdTheme(idTheme);
+        List<Reinforcement> reinforcementsStudent = new ArrayList<>();
+
+        if (result >= 0 && result <= 33)
+        {
+            reinforcementsStudent = reinforcements.stream().filter(reinforcement -> reinforcement
+                .getIdDifficulty().equals(LOW_DIFFICULTY)).collect(Collectors.toList());
+        }
+        else if (result >= 34 && result <= 66)
+        {
+            reinforcementsStudent = reinforcements.stream().filter(reinforcement -> reinforcement
+                .getIdDifficulty().equals(MEDIUM_DIFFICULTY)).collect(Collectors.toList());
+        }
+        else
+        {
+            reinforcementsStudent = reinforcements.stream().filter(reinforcement -> reinforcement
+                .getIdDifficulty().equals(HARD_DIFFICULTY)).collect(Collectors.toList());
+        }
+
+        List<Integer> reinforcementIds =
+            reinforcementsStudent.stream().map(Reinforcement::getId).collect(Collectors.toList());
+
+        return reinforcementIds.stream().map(String::valueOf).collect(Collectors.joining(","));
     }
 
     private int getPointsForAnswer(Answer answer)
@@ -203,5 +247,31 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
         {
             return 3;
         }
+    }
+
+    public ExamStudentReinforcementsDTO reinforcementsStudentExam(Integer examStudentId)
+    {
+        ExamStudent examStudent = findById(examStudentId);
+
+        ExamStudentReinforcementsDTO examStudentReinforcementsDTO =
+            new ExamStudentReinforcementsDTO();
+        examStudentReinforcementsDTO.setId(examStudent.getId());
+        examStudentReinforcementsDTO.setIdExam(examStudent.getIdExam());
+        examStudentReinforcementsDTO.setIdStudent(examStudent.getIdStudent());
+        examStudentReinforcementsDTO.setArea(examStudent.getExam().getArea());
+
+        List<Integer> reinforcementsIds = Arrays.stream(examStudent.getReinforcements()
+            .split("\\s*,\\s*")).map(Integer::parseInt).collect(Collectors.toList());
+
+        List<Reinforcement> reinforcements = new ArrayList<>();
+
+        reinforcementsIds.forEach(reinforcementId -> {
+            Reinforcement reinforcement = reinforcementService.findById(reinforcementId);
+            reinforcements.add(reinforcement);
+        });
+
+        examStudentReinforcementsDTO.setReinforcements(reinforcements);
+
+        return examStudentReinforcementsDTO;
     }
 }
