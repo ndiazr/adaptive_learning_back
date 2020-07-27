@@ -35,7 +35,7 @@ public class Answer extends BaseEntity
     @Column(name = "is_correct", nullable = false)
     private Short isCorrect;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "id_question", insertable = false, updatable = false)
     @JsonBackReference
     @ToString.Exclude

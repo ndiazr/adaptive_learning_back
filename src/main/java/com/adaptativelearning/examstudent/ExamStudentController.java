@@ -50,6 +50,19 @@ public class ExamStudentController
         }
     }
 
+    @PostMapping("/retry")
+    public ResponseEntity assignStudentsExam(@Valid @RequestBody ExamStudentRetryDTO examStudentRetryDTO)
+    {
+        try
+        {
+            return ResponseEntity.ok(examStudentService.retryStudentsExam(examStudentRetryDTO));
+        }
+        catch (Exception e)
+        {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+        }
+    }
+
     @GetMapping("/take-exam/{examStudent}")
     public ResponseEntity takeStudentExam(@PathVariable(name = "examStudent") Integer examStudent)
     {

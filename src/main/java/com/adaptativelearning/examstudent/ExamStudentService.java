@@ -117,6 +117,67 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
         }
     }
 
+    public ExamStudentTakeDTO retryStudentsExam(ExamStudentRetryDTO examStudentRetryDTO)
+    throws Exception
+    {
+        Parameter numQuestParam = parameterService.findByParameterKey(NUMBER_QUESTIONS_KEY);
+
+        Integer numberQuestions = numQuestParam != null
+            ? Integer.valueOf(numQuestParam.getValue())
+            : DEFAULT_NUMBER_QUESTIONS;
+
+        int questionPerDifficulty = numberQuestions / 3;
+
+        Exam exam = examService.findById(examStudentRetryDTO.getExam());
+
+        if (exam != null)
+        {
+            List<Question> questions = questionService.getAll().stream().filter(question -> question
+                .getIdTheme().equals(exam.getIdTheme())).collect(Collectors.toList());
+
+            List<Question> easyQuestions = questions.stream().filter(question -> question
+                .getIdDifficulty().equals(LOW_DIFFICULTY)).collect(Collectors.toList());
+
+            List<Question> halfQuestions = questions.stream().filter(question -> question
+                .getIdDifficulty().equals(MEDIUM_DIFFICULTY)).collect(Collectors.toList());
+
+            List<Question> hardQuestions = questions.stream().filter(question -> question
+                .getIdDifficulty().equals(HARD_DIFFICULTY)).collect(Collectors.toList());
+
+            if (easyQuestions.size() >= questionPerDifficulty
+                && halfQuestions.size() >= questionPerDifficulty
+                && hardQuestions.size() >= questionPerDifficulty)
+            {
+                List<ExamStudent> examStudentList = examStudentRepository.searchAssignment(exam
+                    .getId(), examStudentRetryDTO.getStudent());
+
+                ExamStudent examStudent = new ExamStudent();
+                examStudent.setIdExam(exam.getId());
+                examStudent.setIdStudent(examStudentRetryDTO.getStudent());
+                examStudent.setQuestions(getQuestions(easyQuestions,
+                    halfQuestions,
+                    hardQuestions,
+                    questionPerDifficulty));
+                examStudent.setTryNumber(examStudentList.size() + 1);
+                examStudent.setState(ASSIGNED_STATE);
+
+                examStudent = save(examStudent);
+
+                return takeStudentExam(examStudent.getId());
+            }
+            else
+            {
+                throw new Exception(
+                    "No existen suficientes preguntas almacenadas para construir la evaluación");
+            }
+
+        }
+        else
+        {
+            throw new Exception("La evaluación que intenta asignar no existe");
+        }
+    }
+
     private String getQuestions(List<Question> easyQuestions,
         List<Question> halfQuestions,
         List<Question> hardQuestions,
