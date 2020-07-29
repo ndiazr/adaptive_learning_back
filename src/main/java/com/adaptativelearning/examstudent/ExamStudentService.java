@@ -11,11 +11,14 @@ import com.adaptativelearning.question.Question;
 import com.adaptativelearning.question.QuestionService;
 import com.adaptativelearning.reinforcement.Reinforcement;
 import com.adaptativelearning.reinforcement.ReinforcementService;
+import com.adaptativelearning.user.User;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,6 +56,73 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
     public List<ExamStudent> findByStudent(Integer idStudent)
     {
         return examStudentRepository.findByIdStudent(idStudent);
+    }
+
+    public ExamStudentForTeacherDTO findForTeacherByExam(Integer idExam)
+    {
+        List<ExamStudent> examStudentList = examStudentRepository.findByIdExam(idExam);
+
+        if (!examStudentList.isEmpty())
+        {
+            ExamStudentForTeacherDTO examStudentForTeacherDTO = new ExamStudentForTeacherDTO();
+
+            examStudentForTeacherDTO.setIdExam(examStudentList.get(0).getIdExam());
+            examStudentForTeacherDTO.setExam(examStudentList.get(0).getExam());
+
+            Map<User, List<ExamStudent>> mapGroupBySTudent = examStudentList.stream().collect(
+                Collectors.groupingBy(ExamStudent::getStudent));
+
+            Map<String, List<StudentExamDetailDTO>> mapFinal = new HashMap<>();
+
+            mapGroupBySTudent.forEach((user, examStudents) -> {
+
+                List<StudentExamDetailDTO> detail = examStudents.stream().map(det -> {
+
+                    StudentExamDetailDTO stuExamDet = new StudentExamDetailDTO();
+
+                    stuExamDet.setState(det.getState());
+                    stuExamDet.setRealizationDate(det.getRealizationDate());
+                    stuExamDet.setResult(det.getResult());
+                    stuExamDet.setTryNumber(det.getTryNumber());
+
+                    List<Integer> reinforcementsIds = new ArrayList<>();
+
+                    if (det.getReinforcements() != null)
+                    {
+                        if (!det.getReinforcements().isEmpty())
+                        {
+                            reinforcementsIds = Arrays.stream(det.getReinforcements()
+                                .split("\\s*,\\s*")).map(Integer::parseInt).collect(Collectors
+                                .toList());
+                        }
+                    }
+
+                    List<Reinforcement> reinforcements = new ArrayList<>();
+
+                    reinforcementsIds.forEach(reinforcementId -> {
+                        Reinforcement reinforcement =
+                            reinforcementService.findById(reinforcementId);
+                        reinforcements.add(reinforcement);
+                    });
+
+                    stuExamDet.setReinforcements(reinforcements);
+
+                    return stuExamDet;
+
+                }).collect(Collectors.toList());
+
+                mapFinal.put(user.getNames() + " " + user.getLastNames(), detail);
+
+            });
+
+            examStudentForTeacherDTO.setStudents(mapFinal);
+
+            return examStudentForTeacherDTO;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public void assignStudentsExam(ExamStudentAssignDTO examStudentAssignDTO)

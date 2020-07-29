@@ -15,4 +15,6 @@ public interface ExamStudentRepository extends BaseRepository<ExamStudent, Integ
         @Param("idStudent") Integer idStudent);
 
     List<ExamStudent> findByIdStudent(Integer idStudent);
+
+    List<ExamStudent> findByIdExam(Integer idExam);
 }

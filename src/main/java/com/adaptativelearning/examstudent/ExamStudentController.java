@@ -36,6 +36,12 @@ public class ExamStudentController
         return ResponseEntity.ok(examStudentService.findByStudent(idStudent));
     }
 
+    @GetMapping("/findForTeacherByExam/{exam}")
+    public ResponseEntity findForTeacherByExam(@PathVariable(name = "exam") Integer idExam)
+    {
+        return ResponseEntity.ok(examStudentService.findForTeacherByExam(idExam));
+    }
+
     @PostMapping("/assign")
     public ResponseEntity assignStudentsExam(@Valid @RequestBody ExamStudentAssignDTO examStudentAssignDTO)
     {
