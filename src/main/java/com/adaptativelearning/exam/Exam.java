@@ -10,6 +10,7 @@ import com.adaptativelearning.grade.Grade;
 import com.adaptativelearning.theme.Theme;
 import com.adaptativelearning.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,7 +18,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -107,6 +111,17 @@ public class Exam extends BaseEntity
     @DropDown(query = "SELECT ID AS value, NAME AS label FROM themes")
     private int idTheme;
 
+    @Temporal(TemporalType.DATE)
+    @Column(name = "creation_date", updatable = false)
+    @LineText(editable = false, date = true)
+    private Date creationDate;
+
     @Column(name = "is_private", nullable = false)
     private Short isPrivate;
+
+    @PrePersist
+    void creationDate()
+    {
+        this.creationDate = new Date();
+    }
 }
