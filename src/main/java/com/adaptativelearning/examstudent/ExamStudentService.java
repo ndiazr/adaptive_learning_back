@@ -5,6 +5,8 @@ import com.adaptativelearning.answer.AnswerService;
 import com.adaptativelearning.base.BaseService;
 import com.adaptativelearning.exam.Exam;
 import com.adaptativelearning.exam.ExamService;
+import com.adaptativelearning.examstudentreinforcement.ExamStudentReinforcement;
+import com.adaptativelearning.examstudentreinforcement.ExamStudentReinforcementService;
 import com.adaptativelearning.parameter.Parameter;
 import com.adaptativelearning.parameter.ParameterService;
 import com.adaptativelearning.question.Question;
@@ -49,6 +51,9 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
 
     @Autowired
     private ReinforcementService reinforcementService;
+
+    @Autowired
+    private ExamStudentReinforcementService examStudentReinforcementService;
 
     @Autowired
     private ExamStudentRepository examStudentRepository;
@@ -331,13 +336,14 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
         int result = (totalPoints * 100) / possibleTotalPoints;
 
         examStudent.setResult(result);
-        examStudent.setReinforcements(getReinforcements(result,
+        examStudent.setReinforcements(getReinforcements(examStudent.getId(),
+            result,
             examStudent.getExam().getIdTheme()));
 
         return save(examStudent);
     }
 
-    private String getReinforcements(int result, int idTheme)
+    private String getReinforcements(Integer idExamStudent, int result, int idTheme)
     {
         List<Reinforcement> reinforcements = reinforcementService.findByIdTheme(idTheme);
         List<Reinforcement> reinforcementsStudent = new ArrayList<>();
@@ -360,6 +366,15 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
 
         List<Integer> reinforcementIds =
             reinforcementsStudent.stream().map(Reinforcement::getId).collect(Collectors.toList());
+
+        reinforcementIds.forEach(reinforcement -> {
+            ExamStudentReinforcement examStudentReinforcement = new ExamStudentReinforcement();
+            examStudentReinforcement.setIdExamStudent(idExamStudent);
+            examStudentReinforcement.setIdReinforcement(reinforcement);
+            examStudentReinforcement.setIsRead((short) 0);
+
+            examStudentReinforcementService.save(examStudentReinforcement);
+        });
 
         return reinforcementIds.stream().map(String::valueOf).collect(Collectors.joining(","));
     }
