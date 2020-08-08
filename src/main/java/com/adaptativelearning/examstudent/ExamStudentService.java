@@ -175,6 +175,7 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
                         questionPerDifficulty));
                     examStudent.setTryNumber(examStudentList.size() + 1);
                     examStudent.setState(ASSIGNED_STATE);
+                    examStudent.setAssignmentDate(new Date());
 
                     save(examStudent);
                 });
@@ -235,6 +236,7 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
                     questionPerDifficulty));
                 examStudent.setTryNumber(examStudentList.size() + 1);
                 examStudent.setState(ASSIGNED_STATE);
+                examStudent.setAssignmentDate(examStudentList.get(0).getAssignmentDate());
 
                 examStudent = save(examStudent);
 

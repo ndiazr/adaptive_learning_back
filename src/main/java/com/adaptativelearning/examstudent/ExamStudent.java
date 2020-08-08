@@ -51,6 +51,10 @@ public class ExamStudent extends BaseEntity
     private String state;
 
     @Temporal(TemporalType.DATE)
+    @Column(name = "assignment_date")
+    private Date assignmentDate;
+
+    @Temporal(TemporalType.DATE)
     @Column(name = "realization_date")
     private Date realizationDate;
 
