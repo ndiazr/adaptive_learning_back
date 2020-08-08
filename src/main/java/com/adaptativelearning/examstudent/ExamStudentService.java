@@ -288,6 +288,7 @@ public class ExamStudentService extends BaseService<ExamStudent, Integer>
         examStudentTakeDTO.setId(examStudent.getId());
         examStudentTakeDTO.setIdExam(examStudent.getIdExam());
         examStudentTakeDTO.setIdStudent(examStudent.getIdStudent());
+        examStudentTakeDTO.setExam(examStudent.getExam());
         examStudentTakeDTO.setArea(examStudent.getExam().getArea());
         examStudentTakeDTO.setState(examStudent.getState());
         examStudentTakeDTO.setTryNumber(examStudent.getTryNumber());
