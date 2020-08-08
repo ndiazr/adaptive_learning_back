@@ -30,6 +30,8 @@ dependencies {
 
 	runtimeOnly 'mysql:mysql-connector-java'
 
+	compile group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.11.830'
+
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
