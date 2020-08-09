@@ -48,6 +48,14 @@ public class QuestionController
     @Autowired
     private QuestionService questionService;
 
+    @ApiOperation(value = "Find a resource by theme")
+    @ApiResponse(code = 404, message = "The resource was not found")
+    @GetMapping("/findByTheme/{theme}")
+    public ResponseEntity<List<Question>> findResourceByTheme(@PathVariable(name = "theme") Integer idTheme)
+    {
+        return ResponseEntity.ok(questionService.findByIdTheme(idTheme));
+    }
+
     @ApiOperation(value = "Creates a resource", code = 201)
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()
