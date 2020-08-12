@@ -59,8 +59,7 @@ public class QuestionController
     @ApiOperation(value = "Creates a resource", code = 201)
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(consumes = {"multipart/form-data"})
-    public ResponseEntity<Question> createResource(
-        @RequestPart(value = "file", required = false) MultipartFile multipartFile,
+    public ResponseEntity<Question> createResource(@RequestPart(value = "file", required = false) MultipartFile multipartFile,
         @RequestPart(value = "question") @Valid Question requestEntity)
     throws Exception
     {
@@ -77,7 +76,11 @@ public class QuestionController
 
             requestEntity.setIdContent(mediaContent.getId());
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(questionService.save(requestEntity));
+        Question questionCreated = questionService.save(requestEntity);
+        Question questionResponse = questionService.findById(questionCreated.getId());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(questionService
+            .save(questionResponse));
     }
 
     /**
@@ -139,34 +142,68 @@ public class QuestionController
      */
     @ApiOperation(value = "Updates a resource")
     @ApiResponse(code = 404, message = "The resource was not found")
-    @PutMapping(value = "{id}")
-    public ResponseEntity<Question> updateResource(
-        @RequestPart(value = "file", required = false) MultipartFile multipartFile,
-        @PathVariable() Integer id,
-        @RequestBody Question requestEntity)
+    @PutMapping(value = "{id}", consumes = {"multipart/form-data"})
+    public ResponseEntity<Question> updateResource(@RequestPart(value = "file", required = false) MultipartFile multipartFile,
+        @RequestPart(value = "question") @Valid Question requestEntity,
+        @PathVariable() Integer id)
     throws Exception
     {
+        Question questionToUpdate = questionService.findById(id);
+
         if (multipartFile != null)
         {
-            MediaContent mediaContent = mediaContentService.findById(requestEntity.getIdContent());
-            awss3Service.deleteFile(mediaContent.getRefContent());
-
             MediaContentDTO mediaContentDTO = awss3Service.uploadFile(multipartFile);
 
-            mediaContent.setMime(mediaContentDTO.getMime());
-            mediaContent.setRefContent(mediaContentDTO.getReference());
-            mediaContent.setTypeContent(mediaContentDTO.getTypeContent());
+            MediaContent mediaContent = new MediaContent();
 
-            mediaContentService.update(mediaContent.getId(), mediaContent);
+            if (requestEntity.getIdContent() != null)
+            {
+                mediaContent = mediaContentService.findById(requestEntity.getIdContent());
+                awss3Service.deleteFile(mediaContent.getRefContent());
+
+                mediaContent.setMime(mediaContentDTO.getMime());
+                mediaContent.setRefContent(mediaContentDTO.getReference());
+                mediaContent.setTypeContent(mediaContentDTO.getTypeContent());
+
+                mediaContentService.update(mediaContent.getId(), mediaContent);
+            }
+            else
+            {
+                mediaContent.setMime(mediaContentDTO.getMime());
+                mediaContent.setRefContent(mediaContentDTO.getReference());
+                mediaContent.setTypeContent(mediaContentDTO.getTypeContent());
+
+                mediaContent = mediaContentService.save(mediaContent);
+                requestEntity.setIdContent(mediaContent.getId());
+            }
         }
-        Question baseEntityUpdated = questionService.update(id, requestEntity);
 
-        NullValidatorBuilder.builder().httpStatus(HttpStatus.NOT_FOUND).message(format(NOT_FOUND_ERROR_FORMAT,
-            id)).validate(baseEntityUpdated);
+        if (requestEntity.getIdContent() == null && questionToUpdate.getMediaContent() != null)
+        {
+            awss3Service.deleteFile(questionToUpdate.getMediaContent().getRefContent());
 
-        Question baseEntityResponse = questionService.findById(baseEntityUpdated.getId());
+            Question baseEntityUpdated = questionService.update(id, requestEntity);
 
-        return ResponseEntity.ok(baseEntityResponse);
+            mediaContentService.delete(questionToUpdate.getMediaContent());
+
+            NullValidatorBuilder.builder().httpStatus(HttpStatus.NOT_FOUND).message(format(NOT_FOUND_ERROR_FORMAT,
+                id)).validate(baseEntityUpdated);
+
+            Question baseEntityResponse = questionService.findById(baseEntityUpdated.getId());
+
+            return ResponseEntity.ok(baseEntityResponse);
+        }
+        else
+        {
+            Question baseEntityUpdated = questionService.update(id, requestEntity);
+
+            NullValidatorBuilder.builder().httpStatus(HttpStatus.NOT_FOUND).message(format(NOT_FOUND_ERROR_FORMAT,
+                id)).validate(baseEntityUpdated);
+
+            Question baseEntityResponse = questionService.findById(baseEntityUpdated.getId());
+
+            return ResponseEntity.ok(baseEntityResponse);
+        }
     }
 
     /**

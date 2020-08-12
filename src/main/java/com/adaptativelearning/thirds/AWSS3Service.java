@@ -92,6 +92,6 @@ public class AWSS3Service
     public void deleteFile(String fileUrl)
     {
         String fileName = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
-        amazonS3.deleteObject(new DeleteObjectRequest(bucketName + "/", fileName));
+        amazonS3.deleteObject(new DeleteObjectRequest(bucketName, fileName));
     }
 }
