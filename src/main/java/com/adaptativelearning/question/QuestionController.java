@@ -58,10 +58,10 @@ public class QuestionController
 
     @ApiOperation(value = "Creates a resource", code = 201)
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping()
+    @PostMapping(consumes = {"multipart/form-data"})
     public ResponseEntity<Question> createResource(
         @RequestPart(value = "file", required = false) MultipartFile multipartFile,
-        @Valid @RequestBody Question requestEntity)
+        @RequestPart(value = "question") @Valid Question requestEntity)
     throws Exception
     {
         if (multipartFile != null)
