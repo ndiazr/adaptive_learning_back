@@ -29,17 +29,13 @@ public class Reinforcement extends BaseEntity
     @LineText(hidden = true, editable = false)
     private Integer id;
 
-    @Column(length = 250)
-    @LineText
-    private String description;
-
-    @Column(nullable = false, length = 300)
-    @LineText
-    private String link;
-
     @Column(nullable = false, length = 100)
     @LineText
     private String title;
+
+    @Column(length = 250)
+    @LineText
+    private String description;
 
     @OneToOne
     @JoinColumn(name = "id_theme", insertable = false, updatable = false)
@@ -62,4 +58,8 @@ public class Reinforcement extends BaseEntity
     @Column(name = "id_difficulty", nullable = false)
     @DropDown(query = "SELECT ID AS value, NAME AS label FROM difficulties")
     private Integer idDifficulty;
+
+    @Column(nullable = false, length = 300)
+    @LineText
+    private String link;
 }
