@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 public class BaseController<T extends BaseEntity, I extends Serializable, R, A>
 {
-    private static final String NOT_FOUND_ERROR_FORMAT = "The resource %s was not found";
+    protected static final String NOT_FOUND_ERROR_FORMAT = "The resource %s was not found";
 
     @Autowired
     private EntityInfoService entityInfoService;
