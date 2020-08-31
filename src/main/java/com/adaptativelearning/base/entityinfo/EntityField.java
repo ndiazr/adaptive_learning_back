@@ -10,6 +10,7 @@ public class EntityField
     private String name;
     private String dataType;
     private boolean hidden;
+    private boolean hiddenInTable;
     private boolean editable;
     private boolean nullable;
     private boolean pk;

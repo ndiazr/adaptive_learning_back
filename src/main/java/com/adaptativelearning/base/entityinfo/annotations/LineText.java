@@ -11,6 +11,8 @@ public @interface LineText
 {
     boolean hidden() default false;
 
+    boolean hiddenInTable() default false;
+
     boolean editable() default true;
 
     boolean date() default false;

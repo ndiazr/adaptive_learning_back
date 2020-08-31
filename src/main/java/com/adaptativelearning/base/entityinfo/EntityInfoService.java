@@ -99,6 +99,7 @@ public class EntityInfoService
             entityField.setDataType(LINE_TEXT);
             entityField.setEditable(lineText.editable());
             entityField.setHidden(lineText.hidden());
+            entityField.setHiddenInTable(lineText.hiddenInTable());
             entityField.setNullable(column.nullable());
             entityField.setSize(column.length());
             entityField.setMaxValue(lineText.maxValue());

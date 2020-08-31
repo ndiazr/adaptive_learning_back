@@ -55,7 +55,7 @@ public class User extends BaseEntity
     private String email;
 
     @Column(nullable = false, length = 61)
-    @LineText(hidden = true, editable = false)
+    @LineText(hiddenInTable = true)
     private String password;
 
     @OneToOne
