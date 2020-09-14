@@ -69,7 +69,7 @@ CREATE TABLE `categories` (
 CREATE TABLE `dbas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
-  `description` varchar(200) DEFAULT NULL,
+  `description` varchar(500) DEFAULT NULL,
   `id_category` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `dbas_FK` (`id_category`),

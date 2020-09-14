@@ -46,6 +46,8 @@ public class Theme extends BaseEntity
     private Dba dba;
 
     @Column(name = "id_dba", nullable = false)
-    @DropDown(query = "SELECT ID AS value, NAME AS label FROM dbas")
+    @DropDown(query = "SELECT dbas.id AS value, CONCAT(dbas.name, ' - ', areas.name) AS label"
+        + " FROM dbas, categories, areas"
+        + " WHERE dbas.id_category = categories.id AND categories.id_area = areas.id ")
     private Integer idDba;
 }

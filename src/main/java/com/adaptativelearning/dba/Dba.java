@@ -33,7 +33,7 @@ public class Dba extends BaseEntity
     @LineText
     private String name;
 
-    @Column(length = 200)
+    @Column(length = 500)
     @LineText
     private String description;
 
