@@ -27,7 +27,7 @@ public class User extends BaseEntity
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
-    @LineText(hidden = true, editable = false)
+    @LineText(hidden = true, editable = false, hiddenInTable = true)
     private Integer id;
 
     @Column(name = "id_number", nullable = false)
